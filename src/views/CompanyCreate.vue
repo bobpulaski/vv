@@ -56,8 +56,8 @@ export default {
       await axios
         .post("http://127.0.0.1:5000/api/company", this.companyData)
         .then((response) => {
-          this.$emit("isSuccessfullyCreated");
-          this.$router.back();
+          localStorage.setItem("isCompanyCreated", "true");
+          this.$router.push({ name: "companies" });
         });
     },
   },

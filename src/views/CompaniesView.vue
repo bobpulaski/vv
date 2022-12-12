@@ -3,6 +3,7 @@
     <div class="columns is-vcentered">
       <div class="column">
         <h1 class="is-size-3">Контрагенты</h1>
+        <div v-if="isCompanyCreated">СОЗДАНА ТОЛЬКО ЧТО</div>
       </div>
       <div class="column">
         <router-link :to="{ name: 'companies-create' }" class="is-pulled-right">
@@ -65,7 +66,6 @@
       :companyId="companyId"
       :companyName="companyName"
       @companyHasBeenDeleted="getAllComapnies"
-      @isSuccessfullyCreated="alarm"
     ></DeleteConfirmModal>
   </div>
 </template>
@@ -84,6 +84,7 @@ export default {
       companies: [],
       companyId: null,
       companyName: "",
+      isCompanyCreated: "",
     };
   },
 
@@ -103,13 +104,19 @@ export default {
       modalWindow.classList.add("is-active");
     },
 
-    alarm() {
-      console.log("234");
+    getSessionKey() {
+      this.isCompanyCreated = localStorage.getItem("isCompanyCreated");
+      delete localStorage.isCompanyCreated;
     },
   },
 
   mounted() {
     this.getAllComapnies();
+    this.getSessionKey();
+  },
+
+  unmounted() {
+    this.isCompanyCreated = "";
   },
 };
 </script>
