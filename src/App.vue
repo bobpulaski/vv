@@ -1,5 +1,3 @@
-// TODO - Установть title для страниц
-
 <template>
   <div>
     <nav

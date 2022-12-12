@@ -6,7 +6,7 @@
       </div>
       <div class="column">
         <router-link :to="{ name: 'companies-create' }" class="is-pulled-right">
-          <button class="button is-info">
+          <button class="button is-info is-small" title="Создать контрагента">
             <i class="fa-regular fa-square-plus"></i>
           </button>
         </router-link>
@@ -65,6 +65,7 @@
       :companyId="companyId"
       :companyName="companyName"
       @companyHasBeenDeleted="getAllComapnies"
+      @isSuccessfullyCreated="alarm"
     ></DeleteConfirmModal>
   </div>
 </template>
@@ -100,6 +101,10 @@ export default {
 
       let modalWindow = document.getElementById("confirm-modal");
       modalWindow.classList.add("is-active");
+    },
+
+    alarm() {
+      console.log("234");
     },
   },
 
