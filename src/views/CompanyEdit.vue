@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Создание контрагента</h1>
+    <h1>Редактирование контрагента</h1>
     <div class="section">
       <div class="container">
         <div class="column is-one-third">
@@ -12,7 +12,6 @@
               type="text"
               name="name"
               placeholder="Например, ООО «Ромашка»"
-              v-model="companyData.name"
             />
           </div>
           <div class="control mb-4">
@@ -23,14 +22,11 @@
               type="text"
               name="inn"
               placeholder="Для организаций – 10, а для ИП – 13 цифр"
-              v-model="companyData.inn"
             />
           </div>
           <div class="buttons">
             <button class="button" @click="$router.back()">Отмена</button>
-            <button class="button is-info" @click="createCompany">
-              Создать
-            </button>
+            <button class="button is-info">Сохранить</button>
           </div>
         </div>
       </div>
@@ -42,27 +38,22 @@
 import axios from "axios";
 
 export default {
-  data() {
-    return {
-      companyData: {
-        name: "",
-        inn: null,
-      },
-    };
+  methods: {
+    async getCompanyById(id = this.$route.params.id) {
+      console.log(id);
+      await axios
+        .get("http://127.0.0.1:5000/api/company/", +194)
+        .then((response) => {
+          this.company = response.data;
+          console.log(this.company);
+        });
+    },
   },
 
-  methods: {
-    async createCompany() {
-      await axios
-        .post("http://127.0.0.1:5000/api/company", this.companyData)
-        .then((response) => {
-          localStorage.setItem("isCompanyCreated", "true");
-          this.$router.push({ name: "companies" });
-        })
-        .catch((error) => console.log(error.response.data));
-    },
+  mounted() {
+    this.getCompanyById();
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>

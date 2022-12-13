@@ -41,12 +41,17 @@
                 </button>
               </div>
               <div class="column is-1">
-                <button
-                  title="Редактировать"
-                  class="button is-success is-light is-small"
+                <router-link
+                  :to="{ name: 'companies-edit', params: { id: company.id } }"
+                  class="is-pulled-right"
                 >
-                  <i class="fa-solid fa-ellipsis"></i>
-                </button>
+                  <button
+                    title="Редактировать"
+                    class="button is-success is-light is-small"
+                  >
+                    <i class="fa-solid fa-ellipsis"></i>
+                  </button>
+                </router-link>
               </div>
               <div class="column is-1">
                 <button
@@ -92,7 +97,6 @@ export default {
     async getAllComapnies() {
       await axios.get("http://127.0.0.1:5000/api/company").then((response) => {
         this.companies = response.data;
-        console.log(this.companies);
       });
     },
 
