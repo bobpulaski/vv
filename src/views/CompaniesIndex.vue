@@ -2,11 +2,11 @@
   <div>
     <div class="columns is-vcentered">
       <div class="column">
-        <h1 class="is-size-3">Контрагенты</h1>
+        <header-h1>Контрагенты</header-h1>
         <div v-if="isCompanyCreated">СОЗДАНА ТОЛЬКО ЧТО</div>
       </div>
       <div class="column">
-        <router-link :to="{ name: 'companies-create' }" class="is-pulled-right">
+        <router-link :to="{ name: 'company-create' }" class="is-pulled-right">
           <button class="button is-info is-small" title="Создать контрагента">
             <i class="fa-regular fa-square-plus"></i>
           </button>
@@ -35,28 +35,31 @@
               <div class="column is-1">
                 <button
                   title="Просмотреть"
-                  class="button is-info is-light is-small"
+                  class="button is-light is-small"
                 >
                   <i class="fa-solid fa-folder"></i>
                 </button>
               </div>
+
               <div class="column is-1">
-                <router-link
-                  :to="{ name: 'companies-edit', params: { id: company.id } }"
-                  class="is-pulled-right"
+                <button
+                  title="Редактировать"
+                  class="button is-light is-small"
+                  @click="
+                    $router.push({
+                      name: 'company-edit',
+                      params: { id: company.id },
+                    })
+                  "
                 >
-                  <button
-                    title="Редактировать"
-                    class="button is-success is-light is-small"
-                  >
-                    <i class="fa-solid fa-ellipsis"></i>
-                  </button>
-                </router-link>
+                  <i class="fa-solid fa-ellipsis"></i>
+                </button>
               </div>
+
               <div class="column is-1">
                 <button
                   title="Удалить"
-                  class="button is-danger is-light is-small"
+                  class="button is-light is-small"
                   v-on:click="showModal(company.id, company.name)"
                 >
                   <i class="fa-solid fa-trash"></i>

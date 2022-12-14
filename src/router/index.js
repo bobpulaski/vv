@@ -12,17 +12,27 @@ const router = createRouter({
     {
       path: "/companies",
       name: "companies",
-      component: () => import("../views/CompaniesView.vue"),
+      component: () => import("../views/CompaniesIndex.vue"),
     },
     {
-      path: "/companies/create",
-      name: "companies-create",
+      path: "/company/create",
+      name: "company-create",
       component: () => import("../views/CompanyCreate.vue"),
     },
     {
-      path: "/companies/:id/edit",
-      name: "companies-edit",
+      path: "/company/:id/edit",
+      name: "company-edit",
       component: () => import("../views/CompanyEdit.vue"),
+    },
+    {
+      path: "/invoices",
+      name: "invoices",
+      component: () => import("../views/InvoicesIndex.vue"),
+    },
+    {
+      path: "/goods",
+      name: "goods",
+      component: () => import("../views/GoodsIndex.vue"),
     },
     {
       path: "/about",

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>Редактирование контрагента</h1>
     <div class="section">
       <div class="container">
+        <header-h1>Редактирование контрагента</header-h1>
         <div class="column is-one-third">
           <div class="control mb-4">
             <label class="label">Название</label>
@@ -11,7 +11,7 @@
               class="input"
               type="text"
               name="name"
-              placeholder="Например, ООО «Ромашка»"
+              v-model="company.name"
             />
           </div>
           <div class="control mb-4">
@@ -21,12 +21,14 @@
               class="input"
               type="text"
               name="inn"
-              placeholder="Для организаций – 10, а для ИП – 13 цифр"
+              v-model="company.inn"
             />
           </div>
           <div class="buttons">
             <button class="button" @click="$router.back()">Отмена</button>
-            <button class="button is-info">Сохранить</button>
+            <button class="button is-info" @click="updateCompany()">
+              Сохранить
+            </button>
           </div>
         </div>
       </div>
@@ -38,14 +40,26 @@
 import axios from "axios";
 
 export default {
+  data() {
+    return {
+      company: [],
+    };
+  },
+
   methods: {
     async getCompanyById(id = this.$route.params.id) {
-      console.log(id);
       await axios
-        .get("http://127.0.0.1:5000/api/company/", +194)
+        .get("http://127.0.0.1:5000/api/company/" + id)
         .then((response) => {
-          this.company = response.data;
-          console.log(this.company);
+          this.company = response.data[0];
+        });
+    },
+
+    async updateCompany(id = this.$route.params.id) {
+      await axios
+        .put("http://127.0.0.1:5000/api/company/update/" + id, this.company)
+        .then((response) => {
+          this.$router.push({ name: "companies" });
         });
     },
   },
