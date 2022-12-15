@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h1>Создание контрагента</h1>
     <div class="section">
       <div class="container">
         <div class="column is-one-third">
+          <header-h1>Создание контрагента</header-h1>
           <div class="control mb-4">
             <label class="label">Название</label>
             <input

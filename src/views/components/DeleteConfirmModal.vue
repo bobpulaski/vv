@@ -4,7 +4,7 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Удалить?</p>
+          <p class="modal-card-title">Удаление контрагента</p>
           <button
             class="delete"
             aria-label="close"
@@ -13,6 +13,20 @@
         </header>
         <section class="modal-card-body">
           <!-- Content ... -->
+          <div class="columns">
+            <div class="column is-1 p-1 danger-icon">
+              <i class="fa-solid fa-triangle-exclamation is-size-2"></i>
+            </div>
+            <div class="column">
+              <p>
+                Вы собираетесь удалить контрагента
+                <span class="has-text-weight-semibold">{{ companyName }}.</span>
+              </p>
+              <p class="has-text-weight-light">
+                Это действие невозможно отменить.
+              </p>
+            </div>
+          </div>
         </section>
         <footer class="modal-card-foot is-justify-content-flex-end">
           <button
@@ -67,3 +81,11 @@ export default {
   },
 };
 </script>
+
+<style>
+.danger-icon {
+  margin-top: 10px;
+  margin-left: 10px;
+  color: hsl(348, 100%, 61%);
+}
+</style>

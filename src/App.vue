@@ -20,7 +20,7 @@
             >Контрагенты</router-link
           >
           <router-link to="/invoices" class="navbar-item">Счета</router-link>
-          <router-link to="/goods" class="navbar-item"
+          <router-link to="/products" class="navbar-item"
             >Товары и услуги</router-link
           >
           <div class="navbar-item has-dropdown is-hoverable">
@@ -31,7 +31,9 @@
               <a class="navbar-item">Единицы измерения</a>
               <hr class="navbar-divider" />
               <a class="navbar-item">Справка</a>
-              <router-link to="/about" class="navbar-item">О программе</router-link>
+              <router-link to="/about" class="navbar-item"
+                >О программе</router-link
+              >
             </div>
           </div>
         </div>
