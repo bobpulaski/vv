@@ -5,11 +5,12 @@
         <header-h1>Товары и услуги</header-h1>
       </div>
       <div class="column">
-        <router-link :to="{ name: 'product-create' }" class="is-pulled-right">
-          <button class="button is-info is-small" title="Создать контрагента">
-            <i class="fa-regular fa-square-plus"></i>
-          </button>
-        </router-link>
+        <kso-button
+          @click="$router.push({ name: 'product-create' })"
+          class="is-primary is-pulled-right"
+          title="Добавить товар или услугу"
+          >Добавить</kso-button
+        >
       </div>
     </div>
     <table class="table is-fullwidth is-bordered">

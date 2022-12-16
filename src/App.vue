@@ -1,19 +1,10 @@
 <template>
   <div>
     <nav
-      class="navbar has-background-white has-shadow has-background-white"
+      class="navbar has-shadow is-dark"
       role="navigation"
       aria-label="main navigation"
     >
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-          <img
-            src="https://bulma.io/images/bulma-logo.png"
-            width="112"
-            height="28"
-          />
-        </a>
-      </div>
       <div class="navbar-menu">
         <div class="navbar-start">
           <router-link :to="{ name: 'companies' }" class="navbar-item"
@@ -27,8 +18,12 @@
             <a class="navbar-link">Настройки</a>
 
             <div class="navbar-dropdown">
-              <a class="navbar-item">Моя компания</a>
-              <a class="navbar-item">Единицы измерения</a>
+              <router-link to="/my-companies" class="navbar-item"
+                >Мои компании</router-link
+              >
+              <router-link to="/measures" class="navbar-item"
+                >Единицы измерения</router-link
+              >
               <hr class="navbar-divider" />
               <a class="navbar-item">Справка</a>
               <router-link to="/about" class="navbar-item"
@@ -47,4 +42,8 @@
 
 <script setup></script>
 
-<style></style>
+<style>
+  .modal-background {
+    opacity: 75%;
+  }
+</style>

@@ -40,6 +40,21 @@ const router = createRouter({
       component: () => import("../views/ProductCreate.vue"),
     },
     {
+      path: "/measures",
+      name: "measures",
+      component: () => import("../views/MeasuresIndex.vue"),
+    },
+    {
+      path: "/measure/create",
+      name: "measure-create",
+      component: () => import("../views/MeasureCreate.vue"),
+    },
+    {
+      path: "/my-companies",
+      name: "my-companies",
+      component: () => import("../views/MyCompaniesIndex.vue"),
+    },
+    {
       path: "/about",
       name: "about",
       // route level code-splitting

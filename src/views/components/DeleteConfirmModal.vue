@@ -4,7 +4,7 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Удаление контрагента</p>
+          <p class="modal-card-title">{{ modalTitle }}</p>
           <button
             class="delete"
             aria-label="close"
@@ -19,23 +19,20 @@
             </div>
             <div class="column">
               <p>
-                Вы собираетесь удалить контрагента
-                <span class="has-text-weight-semibold">{{ companyName }}.</span>
+                Вы собираетесь удалить
+                <span class="has-text-weight-semibold">{{entityTitle }}.</span>
               </p>
               <p class="has-text-weight-light">
-                Это действие невозможно отменить.
+                Это действие невозможно отменить!
               </p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot is-justify-content-flex-end">
-          <button
-            class="button is-danger"
-            @click="deleteCompanyById(companyId)"
-          >
+          <button class="button is-danger" @click="actionButtonGoUp()">
             Удалить
           </button>
-          <button id="closeButton" class="button" v-on:click="hideModal">
+          <button id="closeButton" class="button is-dark" v-on:click="hideModal">
             Отмена
           </button>
         </footer>
@@ -55,8 +52,8 @@ export default {
   },
 
   props: {
-    companyId: Number,
-    companyName: String,
+    entityTitle: String,
+    modalTitle: String,
   },
 
   methods: {
@@ -65,10 +62,9 @@ export default {
       modalWindow.classList.remove("is-active");
     },
 
-    async deleteCompanyById(id) {
-      await axios.delete("http://127.0.0.1:5000/api/company/" + id);
+    actionButtonGoUp() {
+      this.$emit("actionButtonGoUp");
       this.hideModal();
-      this.$emit("companyHasBeenDeleted");
     },
   },
 

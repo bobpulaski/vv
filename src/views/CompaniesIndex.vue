@@ -6,11 +6,12 @@
         <div v-if="isCompanyCreated">СОЗДАНА ТОЛЬКО ЧТО</div>
       </div>
       <div class="column">
-        <router-link :to="{ name: 'company-create' }" class="is-pulled-right">
-          <button class="button is-info is-small" title="Создать контрагента">
-            <i class="fa-regular fa-square-plus"></i>
-          </button>
-        </router-link>
+        <kso-button
+          @click="$router.push({ name: 'company-create' })"
+          class="is-primary is-pulled-right"
+          title="Добавить нового контрагента"
+          >Добавить</kso-button
+        >
       </div>
     </div>
     <table class="table is-fullwidth is-bordered">
@@ -33,10 +34,7 @@
           <td>
             <div class="columns is-vcentered">
               <div class="column is-1">
-                <button
-                  title="Просмотреть"
-                  class="button is-light is-small"
-                >
+                <button title="Просмотреть" class="button is-light is-small">
                   <i class="fa-solid fa-folder"></i>
                 </button>
               </div>
@@ -71,9 +69,9 @@
       </tbody>
     </table>
     <DeleteConfirmModal
-      :companyId="companyId"
-      :companyName="companyName"
-      @companyHasBeenDeleted="getAllComapnies"
+      modalTitle="Удаление контрагента"
+      :entityTitle="companyName"
+      @actionButtonGoUp="deleteCompanyById(companyId)"
     ></DeleteConfirmModal>
   </div>
 </template>
@@ -101,6 +99,11 @@ export default {
       await axios.get("http://127.0.0.1:5000/api/company").then((response) => {
         this.companies = response.data;
       });
+    },
+
+    async deleteCompanyById(id) {
+      await axios.delete("http://127.0.0.1:5000/api/company/" + id);
+      this.getAllComapnies();
     },
 
     showModal(id, name) {
