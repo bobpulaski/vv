@@ -12,17 +12,17 @@ const router = createRouter({
     {
       path: "/companies",
       name: "companies",
-      component: () => import("../views/CompaniesIndex.vue"),
+      component: () => import("../views/companies/CompaniesIndex.vue"),
     },
     {
       path: "/company/create",
       name: "company-create",
-      component: () => import("../views/CompanyCreate.vue"),
+      component: () => import("../views/companies/CompanyCreate.vue"),
     },
     {
       path: "/company/:id/edit",
       name: "company-edit",
-      component: () => import("../views/CompanyEdit.vue"),
+      component: () => import("../views/companies/CompanyEdit.vue"),
     },
     {
       path: "/invoices",
@@ -32,22 +32,22 @@ const router = createRouter({
     {
       path: "/products",
       name: "products",
-      component: () => import("../views/ProductsIndex.vue"),
+      component: () => import("../views/products/ProductsIndex.vue"),
     },
     {
       path: "/product/create",
       name: "product-create",
-      component: () => import("../views/ProductCreate.vue"),
+      component: () => import("../views/products/ProductCreate.vue"),
     },
     {
       path: "/measures",
       name: "measures",
-      component: () => import("../views/MeasuresIndex.vue"),
+      component: () => import("../views/measures/MeasuresIndex.vue"),
     },
     {
       path: "/measure/create",
       name: "measure-create",
-      component: () => import("../views/MeasureCreate.vue"),
+      component: () => import("../views/measures/MeasureCreateModal.vue"),
     },
     {
       path: "/my-companies",

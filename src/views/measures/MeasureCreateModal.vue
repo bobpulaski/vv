@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div id="confirm-modal" class="modal">
+    <div id="create-edit-modal" class="modal">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">{{ modalTitle }}</p>
+          <p class="modal-card-title">Добавить единицу измерения</p>
           <button
             class="delete"
             aria-label="close"
@@ -15,8 +15,8 @@
           <!-- Content ... -->
         </section>
         <footer class="modal-card-foot is-justify-content-flex-end">
-          <button class="button is-danger" @click="actionButtonGoUp">
-            Удалить
+          <button class="button is-primary" @click="actionButtonGoUp">
+            Сохранить
           </button>
           <button
             id="closeButton"
@@ -32,7 +32,29 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "CreateEditModal",
+
+  props: {
+    modalType: String,
+    modalTitle: String,
+  },
+
+  methods: {
+    hideModal() {
+      let modalWindow = document.getElementById("create-edit-modal");
+      modalWindow.classList.remove("is-active");
+    },
+  },
+
+  mounted() {
+    document.body.addEventListener("keyup", function (e) {
+      if (e.key == "Escape") {
+        document.getElementById("closeButton").click();
+      }
+    });
+  },
+};
 </script>
 
 <style lang="scss" scoped></style>

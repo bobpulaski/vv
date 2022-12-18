@@ -9,7 +9,7 @@
         <kso-button
           @click="$router.push({ name: 'company-create' })"
           class="is-primary is-pulled-right"
-          title="Добавить нового контрагента"
+          title="Добавить контрагента"
           >Добавить</kso-button
         >
       </div>
@@ -78,7 +78,7 @@
 
 <script>
 import axios from "axios";
-import DeleteConfirmModal from "./components/DeleteConfirmModal.vue";
+import DeleteConfirmModal from "../../components/DeleteConfirmModal.vue";
 
 export default {
   components: {
@@ -96,9 +96,11 @@ export default {
 
   methods: {
     async getAllComapnies() {
-      await axios.get("http://127.0.0.1:5000/api/company").then((response) => {
-        this.companies = response.data;
-      });
+      await axios
+        .get("http://127.0.0.1:5000/api/companies")
+        .then((response) => {
+          this.companies = response.data;
+        });
     },
 
     async deleteCompanyById(id) {
