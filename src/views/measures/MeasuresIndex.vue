@@ -8,7 +8,7 @@
         <kso-button
           @click="showModal"
           class="is-primary is-pulled-right"
-          title="Добавить единицу измерения"
+          title="Добавить единицу измерения (Insert)"
           >Добавить</kso-button
         >
       </div>
@@ -17,9 +17,9 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Id</th>
-          <th>Title</th>
-          <th>FullTitle</th>
+          <th>id</th>
+          <th>name</th>
+          <th>short_name</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -28,8 +28,8 @@
         <tr>
           <td>{{ index + 1 }}</td>
           <td>{{ measure.id }}</td>
-          <td>{{ measure.title }}</td>
-          <td>{{ measure.full_title }}</td>
+          <td>{{ measure.name }}</td>
+          <td>{{ measure.short_name }}</td>
           <td>
             <div class="columns is-vcentered">
               <div class="column is-1">
@@ -41,6 +41,7 @@
               <div class="column is-1">
                 <button
                   title="Редактировать"
+                  id="addButton"
                   class="button is-light is-small"
                   @click="showModal"
                 >
@@ -65,16 +66,23 @@
     <h1>{{ typeOfModal }}</h1>
 
     <MeasureCreateModal></MeasureCreateModal>
+    <DeleteConfirmModal
+      modalTitle="Удаление единицы измерения"
+      :entityTitle="measureName"
+      @actionButtonGoUp="deleteCompanyById()"
+    ></DeleteConfirmModal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import MeasureCreateModal from "./MeasureCreateModal.vue";
+import DeleteConfirmModal from "../../components/DeleteConfirmModal.vue";
 
 export default {
   components: {
     MeasureCreateModal,
+    DeleteConfirmModal,
   },
 
   data() {
@@ -100,11 +108,17 @@ export default {
     showModal() {
       let modalWindow = document.getElementById("create-edit-modal");
       modalWindow.classList.add("is-active");
+      document.getElementById("measure-name").focus();
     },
   },
 
   mounted() {
     this.getAllMeasures();
+    document.body.addEventListener("keyup", function (e) {
+      if (e.key == "Insert") {
+        document.getElementById("addButton").click();
+      }
+    });
   },
 };
 </script>

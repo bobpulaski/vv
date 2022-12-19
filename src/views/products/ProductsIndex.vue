@@ -85,7 +85,6 @@ export default {
       await axios("http://127.0.0.1:5000/api/products")
         .then((response) => {
           this.products = response.data;
-          console.log(this.products);
         })
         .catch((error) => {
           console(error);
