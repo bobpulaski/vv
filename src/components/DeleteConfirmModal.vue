@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="confirm-modal" class="modal">
+    <div id="delete-confirm-modal" class="modal">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -8,7 +8,7 @@
           <button
             class="delete"
             aria-label="close"
-            v-on:click="hideModal"
+            v-on:click="hideDeleteConfirmModal"
           ></button>
         </header>
         <section class="modal-card-body">
@@ -20,7 +20,7 @@
             <div class="column">
               <p>
                 Вы собираетесь удалить
-                <span class="has-text-weight-semibold">{{entityTitle }}.</span>
+                <span class="has-text-weight-semibold">{{ entityTitle }}.</span>
               </p>
               <p class="has-text-weight-light">
                 Это действие невозможно отменить!
@@ -32,7 +32,11 @@
           <button class="button is-danger" @click="actionButtonGoUp()">
             Удалить
           </button>
-          <button id="closeButton" class="button is-dark" v-on:click="hideModal">
+          <button
+            id="close-button"
+            class="button is-dark"
+            v-on:click="hideDeleteConfirmModal()"
+          >
             Отмена
           </button>
         </footer>
@@ -50,26 +54,26 @@ export default {
   },
 
   props: {
-    entityTitle: String,
     modalTitle: String,
+    entityTitle: String,
   },
 
   methods: {
-    hideModal() {
-      let modalWindow = document.getElementById("confirm-modal");
+    hideDeleteConfirmModal() {
+      let modalWindow = document.getElementById("delete-confirm-modal");
       modalWindow.classList.remove("is-active");
     },
 
-    actionButtonGoUp() {
+    emitOnDeleteConfirmModal() {
       this.$emit("actionButtonGoUp");
-      this.hideModal();
+      this.hideDeleteConfirmModal();
     },
   },
 
   mounted() {
     document.body.addEventListener("keyup", function (e) {
       if (e.key == "Escape") {
-        document.getElementById("closeButton").click();
+        document.getElementById("close-button").click();
       }
     });
   },

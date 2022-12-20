@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div id="create-modal" class="modal">
+    <div id="edit-modal" class="modal">
       <div class="modal-background"></div>
       <div class="modal-card column is-3">
         <header class="modal-card-head">
-          <p class="modal-card-title">Добавить единицу измерения</p>
+          <p class="modal-card-title">Изменить единицу измерения</p>
           <button
             class="delete"
             aria-label="close"
-            v-on:click="hideMeasureCreateModal"
+            v-on:click="hideEditModal"
           ></button>
         </header>
         <section class="modal-card-body">
@@ -33,13 +33,13 @@
           />
         </section>
         <footer class="modal-card-foot is-justify-content-flex-end">
-          <button class="button is-primary" @click="createMeasure()">
+          <button class="button is-primary" @click="UpdateMeasure()">
             Сохранить
           </button>
           <button
             id="closeButton"
             class="button is-dark"
-            v-on:click="hideMeasureCreateModal"
+            v-on:click="hideEditModal"
           >
             Отмена
           </button>
@@ -50,48 +50,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
-export default {
-  name: "MeasureCreateModal",
-
-  data() {
-    return {
-      measureData: {
-        name: "",
-        short_name: "",
-      },
-    };
-  },
-
-  props: {
-    modalType: String,
-    modalTitle: String,
-  },
-
-  methods: {
-    hideMeasureCreateModal() {
-      this.measureData.name = "";
-      this.measureData.short_name = "";
-      let modalWindow = document.getElementById("create-modal");
-      modalWindow.classList.remove("is-active");
-    },
-
-    async createMeasure() {
-      await axios.post("http://127.0.0.1:5000/api/measures", this.measureData);
-      this.$emit("actionGoUpOnCreate");
-      this.hideMeasureCreateModal();
-    },
-  },
-
-  mounted() {
-    document.body.addEventListener("keyup", function (e) {
-      if (e.key == "Escape") {
-        document.getElementById("closeButton").click();
-      }
-    });
-  },
-};
+    export default {
+      name: ""
+    }
 </script>
-
-<style lang="scss" scoped></style>
