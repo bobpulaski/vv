@@ -57,7 +57,7 @@
                 <button
                   title="Удалить"
                   class="button is-light is-small"
-                  v-on:click="showModal(product.id, product.name)"
+                  @click="showDeleteConfirmModal(product.id, product.name)"
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
@@ -72,11 +72,18 @@
 
 <script>
 import axios from "axios";
+import DeleteConfirmModal from "../../components/DeleteConfirmModal.vue";
 
 export default {
+  components: {
+    DeleteConfirmModal,
+  },
+
   data() {
     return {
       products: [],
+      productId: null,
+      entityTitle: "",
     };
   },
 
@@ -89,6 +96,13 @@ export default {
         .catch((error) => {
           console(error);
         });
+    },
+
+    showDeleteConfirmModal(id, name) {
+      this.productId = id;
+      this.entityTitle = name;
+      let modalWindow = document.getElementById("delete-confirm-modal");
+      modalWindow.classList.add("is-active");
     },
   },
 

@@ -58,7 +58,7 @@
                 <button
                   title="Удалить"
                   class="button is-light is-small"
-                  v-on:click="showModal(company.id, company.name)"
+                  v-on:click="showDeleteConfirmModal(company.id, company.name)"
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
@@ -69,9 +69,9 @@
       </tbody>
     </table>
     <DeleteConfirmModal
-      modalTitle="Удаление контрагента"
+      title="Удаление контрагента"
       :entityTitle="companyName"
-      @actionButtonGoUp="deleteCompanyById(companyId)"
+      @emitOnDeleteConfirmModal="deleteCompanyById(companyId)"
     ></DeleteConfirmModal>
   </div>
 </template>
@@ -108,11 +108,11 @@ export default {
       this.getAllComapnies();
     },
 
-    showModal(id, name) {
+    showDeleteConfirmModal(id, name) {
       this.companyId = id;
       this.companyName = name;
 
-      let modalWindow = document.getElementById("confirm-modal");
+      let modalWindow = document.getElementById("delete-confirm-modal");
       modalWindow.classList.add("is-active");
     },
 

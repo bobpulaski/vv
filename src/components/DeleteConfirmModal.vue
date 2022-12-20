@@ -4,12 +4,8 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">{{ modalTitle }}</p>
-          <button
-            class="delete"
-            aria-label="close"
-            v-on:click="hideDeleteConfirmModal"
-          ></button>
+          <p class="modal-card-title">{{ title }}</p>
+          <button class="delete" aria-label="close" @click="onHide"></button>
         </header>
         <section class="modal-card-body">
           <!-- Content ... -->
@@ -29,13 +25,11 @@
           </div>
         </section>
         <footer class="modal-card-foot is-justify-content-flex-end">
-          <button class="button is-danger" @click="actionButtonGoUp()">
-            Удалить
-          </button>
+          <button class="button is-danger" @click="onDelete">Удалить</button>
           <button
             id="close-button"
             class="button is-dark"
-            v-on:click="hideDeleteConfirmModal()"
+            @click="onHide"
           >
             Отмена
           </button>
@@ -54,19 +48,19 @@ export default {
   },
 
   props: {
-    modalTitle: String,
+    title: String,
     entityTitle: String,
   },
 
   methods: {
-    hideDeleteConfirmModal() {
+    onHide() {
       let modalWindow = document.getElementById("delete-confirm-modal");
       modalWindow.classList.remove("is-active");
     },
 
-    emitOnDeleteConfirmModal() {
-      this.$emit("actionButtonGoUp");
-      this.hideDeleteConfirmModal();
+    onDelete() {
+      this.$emit("emitOnDeleteConfirmModal");
+      this.onHide();
     },
   },
 

@@ -53,7 +53,7 @@
                 <button
                   title="Удалить"
                   class="button is-light is-small"
-                  v-on:click="showDeleteConfirmModal(measure.id, measure.name)"
+                  @click="showDeleteConfirmModal(measure.id, measure.name)"
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
@@ -69,9 +69,9 @@
       @actionGoUpOnCreate="getAllMeasures"
     ></MeasureCreateModal>
     <DeleteConfirmModal
-      modalTitle="Удаление единицы измерения"
-      :entityTitle="entityTitle"
-      @actionButtonGoUp="deleteMeasuresById(measureId)"
+      title="Удаление единицы измерения"
+      :entity-title="entityTitle"
+      @emitOnDeleteConfirmModal="deleteMeasuresById(measureId)"
     ></DeleteConfirmModal>
   </div>
 </template>
