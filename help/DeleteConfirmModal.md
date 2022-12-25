@@ -4,12 +4,15 @@
 
 ## template
 
-`id="delete-confirm-modal"` - уникальный идентификатор для получения из DOM.
+`id="delete-confirm-modal"`
 
 ## name
 
-`export default {
-  name: "DeleteConfirmModal"}`
+`"DeleteConfirmModal"`
+
+## imports
+
+`import { onEscapePress } from "../utils/keysevents";` - обработчик нажатия клавиши "Escape".
 
 ## props
 
@@ -23,7 +26,8 @@
 
 ## methods
 
-- `onHide()` - скрывает модальное окно по кнопке
-- `onDelete()` - генерирует событие удаления для родительского компонента `this.$emit("emitOnDeleteConfirmModal")`.
+- `toHide()` - скрывает модальное окно.
+- `toDelete()` - генерирует событие удаления для родительского компонента `this.$emit("emitOnDeleteConfirmModal")`.
+- `onEscapePress()` - обработчик события закрытия окна по нажатию клавиши "Escape".
 
 [Назад](index.html)

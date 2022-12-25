@@ -5,11 +5,7 @@
       <div class="modal-card column is-3">
         <header class="modal-card-head">
           <p class="modal-card-title">Добавить единицу измерения</p>
-          <button
-            class="delete"
-            aria-label="close"
-            v-on:click="hideMeasureCreateModal"
-          ></button>
+          <button class="delete" aria-label="close" @click="toHide"></button>
         </header>
         <section class="modal-card-body">
           <!-- Content ... -->
@@ -20,7 +16,7 @@
             type="text"
             name="name"
             placeholder="Например, сантиметр"
-            v-model="measureData.name"
+            v-model="measureData.title"
           />
           <label class="label mt-4">Обозначение</label>
           <input
@@ -29,18 +25,12 @@
             type="text"
             name="name"
             placeholder="см"
-            v-model="measureData.short_name"
+            v-model="measureData.full_title"
           />
         </section>
         <footer class="modal-card-foot is-justify-content-flex-end">
-          <button class="button is-primary" @click="createMeasure()">
-            Сохранить
-          </button>
-          <button
-            id="closeButton"
-            class="button is-dark"
-            v-on:click="hideMeasureCreateModal"
-          >
+          <button class="button is-primary" @click="toCreate">Сохранить</button>
+          <button class="button close-button is-dark" @click="toHide">
             Отмена
           </button>
         </footer>
@@ -50,7 +40,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { onEscapePress } from "../../utils/keysevents";
 
 export default {
   name: "MeasureCreateModal",
@@ -58,38 +48,32 @@ export default {
   data() {
     return {
       measureData: {
-        name: "",
-        short_name: "",
+        title: "",
+        full_title: "",
       },
     };
   },
 
   props: {
-    modalType: String,
-    modalTitle: String,
+    title: String,
   },
 
   methods: {
-    hideMeasureCreateModal() {
-      this.measureData.name = "";
-      this.measureData.short_name = "";
+    toHide() {
+      this.measureData.title = "";
+      this.measureData.full_title = "";
       let modalWindow = document.getElementById("create-modal");
       modalWindow.classList.remove("is-active");
     },
 
-    async createMeasure() {
-      await axios.post("http://127.0.0.1:5000/api/measures", this.measureData);
-      this.$emit("actionGoUpOnCreate");
-      this.hideMeasureCreateModal();
+    toCreate() {
+      this.$emit("emitOnMeasureCreateModal", this.measureData);
+      this.toHide();
     },
   },
 
   mounted() {
-    document.body.addEventListener("keyup", function (e) {
-      if (e.key == "Escape") {
-        document.getElementById("closeButton").click();
-      }
-    });
+    onEscapePress();
   },
 };
 </script>

@@ -25,12 +25,8 @@
           </div>
         </section>
         <footer class="modal-card-foot is-justify-content-flex-end">
-          <button class="button is-danger" @click="onDelete">Удалить</button>
-          <button
-            id="close-button"
-            class="button is-dark"
-            @click="onHide"
-          >
+          <button class="button is-danger" @click="toDelete">Удалить</button>
+          <button class="button close-button is-dark" @click="toHide">
             Отмена
           </button>
         </footer>
@@ -40,6 +36,8 @@
 </template>
 
 <script>
+import { onEscapePress } from "../utils/keysevents";
+
 export default {
   name: "DeleteConfirmModal",
 
@@ -53,23 +51,19 @@ export default {
   },
 
   methods: {
-    onHide() {
+    toHide() {
       let modalWindow = document.getElementById("delete-confirm-modal");
       modalWindow.classList.remove("is-active");
     },
 
-    onDelete() {
+    toDelete() {
+      this.toHide();
       this.$emit("emitOnDeleteConfirmModal");
-      this.onHide();
     },
   },
 
   mounted() {
-    document.body.addEventListener("keyup", function (e) {
-      if (e.key == "Escape") {
-        document.getElementById("close-button").click();
-      }
-    });
+    //onEscapePress();
   },
 };
 </script>

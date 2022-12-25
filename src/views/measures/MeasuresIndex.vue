@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div id="measure-index">
     <div class="columns is-vcentered">
       <div class="column">
         <header-h1>Единицы измерения</header-h1>
       </div>
       <div class="column">
         <kso-button
+          id="add-button"
           @click="showMeasureCreateModal"
           class="is-primary is-pulled-right"
           title="Добавить единицу измерения (Insert)"
@@ -18,8 +19,8 @@
         <tr>
           <th>#</th>
           <th>id</th>
-          <th>name</th>
-          <th>short_name</th>
+          <th>title</th>
+          <th>full_title</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -28,8 +29,8 @@
         <tr>
           <td>{{ index + 1 }}</td>
           <td>{{ measure.id }}</td>
-          <td>{{ measure.name }}</td>
-          <td>{{ measure.short_name }}</td>
+          <td>{{ measure.title }}</td>
+          <td>{{ measure.full_title }}</td>
           <td>
             <div class="columns is-vcentered">
               <div class="column is-1">
@@ -41,7 +42,6 @@
               <div class="column is-1">
                 <button
                   title="Редактировать"
-                  id="addButton"
                   class="button is-light is-small"
                   @click="showMeasureEditModal"
                 >
@@ -53,7 +53,13 @@
                 <button
                   title="Удалить"
                   class="button is-light is-small"
-                  @click="showDeleteConfirmModal(measure.id, measure.name)"
+                  @click="
+                    showDeleteConfirmModal(
+                      measure.id,
+                      measure.full_title,
+                      measure.title
+                    )
+                  "
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
@@ -63,43 +69,45 @@
         </tr>
       </tbody>
     </table>
-    <h1>{{ typeOfModal }}</h1>
 
     <MeasureCreateModal
-      @actionGoUpOnCreate="getAllMeasures"
+      @emitOnMeasureCreateModal="createMeasure"
     ></MeasureCreateModal>
+    
     <DeleteConfirmModal
       title="Удаление единицы измерения"
-      :entity-title="entityTitle"
-      @emitOnDeleteConfirmModal="deleteMeasuresById(measureId)"
+      :entity-title="`${entityTitle} (${entityFullTitle})`"
+      @emitOnDeleteConfirmModal="deleteMeasure"
     ></DeleteConfirmModal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import DeleteConfirmModal from "../../components/DeleteConfirmModal.vue";
 import MeasureCreateModal from "./MeasureCreateModal.vue";
 import MeasureEditModal from "./MeasureEditModal.vue";
-import DeleteConfirmModal from "../../components/DeleteConfirmModal.vue";
+
+import { onInsertPress } from "../../utils/keysevents";
 
 export default {
   components: {
+    DeleteConfirmModal,
     MeasureCreateModal,
     MeasureEditModal,
-    DeleteConfirmModal,
   },
 
   data() {
     return {
       measures: [],
-      typeOfModal: "",
-      entityTitle: "",
       measureId: null,
+      entityTitle: "",
+      entityFullTitle: "",
     };
   },
 
   methods: {
-    async getAllMeasures() {
+    async getMeasures() {
       await axios
         .get("http://localhost:5000/api/measures")
         .then((response) => {
@@ -108,6 +116,18 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    async createMeasure(measureData) {
+      await axios.post("http://127.0.0.1:5000/api/measures", measureData);
+      this.getMeasures();
+    },
+
+    async deleteMeasure() {
+      await axios.delete(
+        "http://127.0.0.1:5000/api/measures/" + this.measureId
+      );
+      this.getMeasures();
     },
 
     showMeasureCreateModal() {
@@ -122,26 +142,18 @@ export default {
       document.getElementById("measure-name").focus();
     },
 
-    showDeleteConfirmModal(id, name) {
+    showDeleteConfirmModal(id, title, full_title) {
       this.measureId = id;
-      this.entityTitle = name;
+      this.entityTitle = title;
+      this.entityFullTitle = full_title;
       let modalWindow = document.getElementById("delete-confirm-modal");
       modalWindow.classList.add("is-active");
-    },
-
-    async deleteMeasuresById(id) {
-      await axios.delete("http://127.0.0.1:5000/api/measures/" + id);
-      this.getAllMeasures();
     },
   },
 
   mounted() {
-    this.getAllMeasures();
-    document.body.addEventListener("keyup", function (e) {
-      if (e.key == "Insert") {
-        document.getElementById("addButton").click();
-      }
-    });
+    this.getMeasures();
+    onInsertPress();
   },
 };
 </script>
