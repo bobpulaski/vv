@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { onEscapePress } from "../utils/keysevents";
+import { onEscapeKeyPress } from "../utils/keysevents";
 
 export default {
   name: "DeleteConfirmModal",
@@ -63,7 +63,6 @@ export default {
   },
 
   mounted() {
-    //onEscapePress();
   },
 };
 </script>

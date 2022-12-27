@@ -7,7 +7,7 @@
       <div class="column">
         <kso-button
           id="add-button"
-          @click="showMeasureCreateModal"
+          @click="toCreate"
           class="is-primary is-pulled-right"
           title="Добавить единицу измерения (Insert)"
           >Добавить</kso-button
@@ -19,8 +19,8 @@
         <tr>
           <th>#</th>
           <th>id</th>
-          <th>title</th>
-          <th>full_title</th>
+          <th>Кратко (title)</th>
+          <th>Наименование (full_title)</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -43,7 +43,7 @@
                 <button
                   title="Редактировать"
                   class="button is-light is-small"
-                  @click="showMeasureEditModal"
+                  @click="toEdit(measure)"
                 >
                   <i class="fa-solid fa-ellipsis"></i>
                 </button>
@@ -71,9 +71,11 @@
     </table>
 
     <MeasureCreateModal
+      :isCreateOrEdit="isCreateOrEdit"
+      :measure="measure"
       @emitOnMeasureCreateModal="createMeasure"
     ></MeasureCreateModal>
-    
+
     <DeleteConfirmModal
       title="Удаление единицы измерения"
       :entity-title="`${entityTitle} (${entityFullTitle})`"
@@ -88,7 +90,7 @@ import DeleteConfirmModal from "../../components/DeleteConfirmModal.vue";
 import MeasureCreateModal from "./MeasureCreateModal.vue";
 import MeasureEditModal from "./MeasureEditModal.vue";
 
-import { onInsertPress } from "../../utils/keysevents";
+import { onInsertKeyPress } from "../../utils/keysevents";
 
 export default {
   components: {
@@ -100,9 +102,10 @@ export default {
   data() {
     return {
       measures: [],
-      measureId: null,
+      measure: null,
       entityTitle: "",
       entityFullTitle: "",
+      isCreateOrEdit: "",
     };
   },
 
@@ -130,16 +133,27 @@ export default {
       this.getMeasures();
     },
 
+    toCreate() {
+      this.isCreateOrEdit = "create";
+      this.showMeasureCreateModal();
+    },
+
+    toEdit(measure) {
+      this.isCreateOrEdit = "edit";
+      this.measure = measure;
+      this.showMeasureCreateModal();
+    },
+
     showMeasureCreateModal() {
-      let modalWindow = document.getElementById("create-modal");
+      let modalWindow = document.getElementById("create-measure-modal");
       modalWindow.classList.add("is-active");
-      document.getElementById("measure-name").focus();
+      //document.getElementById("measure-title").focus();
     },
 
     showMeasureEditModal() {
       let modalWindow = document.getElementById("edit-modal");
       modalWindow.classList.add("is-active");
-      document.getElementById("measure-name").focus();
+      document.getElementById("measure-title").focus();
     },
 
     showDeleteConfirmModal(id, title, full_title) {
@@ -153,7 +167,7 @@ export default {
 
   mounted() {
     this.getMeasures();
-    onInsertPress();
+    onInsertKeyPress();
   },
 };
 </script>
