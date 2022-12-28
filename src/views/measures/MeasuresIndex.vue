@@ -43,7 +43,7 @@
                 <button
                   title="Редактировать"
                   class="button is-light is-small"
-                  @click="toEdit(measure)"
+                  @click="toEdit(measure.id, measure.full_title, measure.title)"
                 >
                   <i class="fa-solid fa-ellipsis"></i>
                 </button>
@@ -70,9 +70,12 @@
       </tbody>
     </table>
 
+    <!-- measure - Send current model of Measure to MeasureCreateModal -->
     <MeasureCreateModal
       :isCreateOrEdit="isCreateOrEdit"
-      :measure="measure"
+      :measureId="measureId"
+      :measureTitle="measureTitle"
+      :measureFullTitle="measureFullTitle"
       @emitOnMeasureCreateModal="createMeasure"
     ></MeasureCreateModal>
 
@@ -102,10 +105,15 @@ export default {
   data() {
     return {
       measures: [],
-      measure: null,
+
       entityTitle: "",
       entityFullTitle: "",
+
       isCreateOrEdit: "",
+
+      measureId: null,
+      measureFullTitle: "",
+      measureTitle: "",
     };
   },
 
@@ -138,22 +146,19 @@ export default {
       this.showMeasureCreateModal();
     },
 
-    toEdit(measure) {
+    toEdit(id, fullTitle, title) {
       this.isCreateOrEdit = "edit";
-      this.measure = measure;
+      this.measureId = id;
+      this.measureFullTitle = fullTitle;
+      this.measureTitle = title;
       this.showMeasureCreateModal();
     },
 
     showMeasureCreateModal() {
       let modalWindow = document.getElementById("create-measure-modal");
       modalWindow.classList.add("is-active");
+      //TODO Что-то нужно решать с фокусом на INPUT(не передаётся по причине условного рендеринга - компоненты ещё не в DOM)
       //document.getElementById("measure-title").focus();
-    },
-
-    showMeasureEditModal() {
-      let modalWindow = document.getElementById("edit-modal");
-      modalWindow.classList.add("is-active");
-      document.getElementById("measure-title").focus();
     },
 
     showDeleteConfirmModal(id, title, full_title) {
