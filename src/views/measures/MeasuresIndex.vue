@@ -143,6 +143,8 @@ export default {
 
     toCreate() {
       this.isCreateOrEdit = "create";
+      this.measureFullTitle = "";
+      this.measureTitle = "";
       this.showMeasureCreateModal();
     },
 

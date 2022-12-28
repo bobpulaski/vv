@@ -14,7 +14,7 @@
           <button class="delete" aria-label="close" @click="toHide"></button>
         </header>
         <section class="modal-card-body">
-          <!-- Create -->
+          <!-- Create Inputs -->
           <div v-if="isCreateOrEdit === 'create'">
             <label class="label">Обозначение</label>
             <input
@@ -24,7 +24,7 @@
               type="text"
               name="name"
               placeholder="см"
-              v-model="measureData.title"
+              v-model="this.measureData.title"
             />
 
             <label class="label mt-4">Наименование</label>
@@ -38,13 +38,11 @@
             />
           </div>
 
-          <!-- Edit -->
+          <!-- Edit Inputs -->
           <div v-if="isCreateOrEdit === 'edit'">
-            <h1>{{ measureData.full_title }}</h1>
             <label class="label">Обозначение</label>
             <input
               id="measure-title"
-              ref="title"
               class="input column is-4"
               type="text"
               name="name"
@@ -63,9 +61,25 @@
             />
           </div>
         </section>
-        <footer class="modal-card-foot is-justify-content-flex-end">
+
+        <!-- Create Buttons -->
+        <footer
+          v-if="isCreateOrEdit === 'create'"
+          class="modal-card-foot is-justify-content-flex-end"
+        >
           <button class="button is-primary" @click="toCreate">Сохранить</button>
-          <button class="button close-button is-dark" @click="toHide">
+          <button class="button close-button is-dark" @click="toHideOnCreate">
+            Отмена
+          </button>
+        </footer>
+
+        <!-- Edit Buttons -->
+        <footer
+          v-if="isCreateOrEdit === 'edit'"
+          class="modal-card-foot is-justify-content-flex-end"
+        >
+          <button class="button is-primary" @click="toUpdate">Изменить</button>
+          <button class="button close-button is-dark" @click="toHideOnUpdate">
             Отмена
           </button>
         </footer>
@@ -80,15 +94,6 @@ import { onEscapeKeyPress } from "../../utils/keysevents";
 export default {
   name: "MeasureCreateModal",
 
-  data() {
-    return {
-      measureData: {
-        title: this.measureTitle,
-        full_title: this.measureFullTitle,
-      },
-    };
-  },
-
   props: {
     measureId: Number,
     measureTitle: String,
@@ -97,10 +102,34 @@ export default {
     isCreateOrEdit: String,
   },
 
+  data() {
+    return {
+      measureData: {
+        title: "",
+        full_title: "",
+      },
+    };
+  },
+
+  watch: {
+    measureTitle() {
+      this.measureData.title = this.measureTitle;
+      this.measureData.full_title = this.measureFullTitle;
+    },
+  },
+
   methods: {
-    toHide() {
-      this.measureData.title = "";
+    
+    toHideOnCreate() {
+      this.measureData.title = ""; //clearing fields depending on the type of window
       this.measureData.full_title = "";
+      let modalWindow = document.getElementById("create-measure-modal");
+      modalWindow.classList.remove("is-active");
+    },
+
+    toHideOnUpdate() {
+      this.measureData.title = this.measureTitle;
+      this.measureData.full_title = this.measureFullTitle;
       let modalWindow = document.getElementById("create-measure-modal");
       modalWindow.classList.remove("is-active");
     },
@@ -108,7 +137,7 @@ export default {
     toCreate() {
       console.log(this.measureData);
       this.$emit("emitOnMeasureCreateModal", this.measureData);
-      this.toHide();
+      this.toHideOnCreate();
     },
   },
 
