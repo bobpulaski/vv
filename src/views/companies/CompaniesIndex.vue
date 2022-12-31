@@ -6,6 +6,9 @@
         <div v-if="isCompanyCreated">СОЗДАНА ТОЛЬКО ЧТО</div>
       </div>
       <div class="column">
+        <input v-model="searchCompany" class="input" type="text" />
+      </div>
+      <div class="column">
         <kso-button
           @click="$router.push({ name: 'company-create' })"
           class="is-primary is-pulled-right"
@@ -25,7 +28,10 @@
         </tr>
       </thead>
 
-      <tbody v-for="(company, index) of companies" v-bind:key="company.id">
+      <tbody
+        v-for="(company, index) in filteredComanies"
+        v-bind:key="company.id"
+      >
         <tr>
           <td>{{ index + 1 }}</td>
           <td>{{ company.id }}</td>
@@ -71,7 +77,7 @@
     <DeleteConfirmModal
       title="Удаление контрагента"
       :entityTitle="companyName"
-      @emitOnDeleteConfirmModal="deleteCompanyById(companyId)"
+      @emitOnDeleteConfirmModal="deleteCompany(companyId)"
     ></DeleteConfirmModal>
   </div>
 </template>
@@ -88,10 +94,23 @@ export default {
   data() {
     return {
       companies: [],
+      searchCompany: "",
       companyId: null,
       companyName: "",
       isCompanyCreated: "",
     };
+  },
+
+  computed: {
+    filteredComanies() {
+      return this.companies.filter((company) => {
+        return (
+          company.name
+            .toUpperCase()
+            .indexOf(this.searchCompany.toUpperCase()) !== -1
+        );
+      });
+    },
   },
 
   methods: {
@@ -103,14 +122,18 @@ export default {
         });
     },
 
-    async deleteCompanyById(id) {
-      await axios.delete("http://127.0.0.1:5000/api/company/" + id);
+    async deleteCompany() {
+      console.log(this.companyId);
+      await axios.delete(
+        "http://127.0.0.1:5000/api/companies/" + this.companyId
+      );
       this.getAllComapnies();
     },
 
     showDeleteConfirmModal(id, name) {
       this.companyId = id;
       this.companyName = name;
+      console.log(this.companyId);
 
       let modalWindow = document.getElementById("delete-confirm-modal");
       modalWindow.classList.add("is-active");
