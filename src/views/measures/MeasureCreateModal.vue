@@ -13,13 +13,13 @@
 
           <button class="delete" aria-label="close" @click="toHide"></button>
         </header>
+
         <section class="modal-card-body">
           <!-- Create Inputs -->
           <div v-if="isCreateOrEdit === 'create'">
             <label class="label">Обозначение</label>
             <input
               id="measure-title"
-              ref="title"
               class="input column is-4"
               type="text"
               name="name"
@@ -119,7 +119,6 @@ export default {
   },
 
   methods: {
-    
     toHideOnCreate() {
       this.measureData.title = ""; //clearing fields depending on the type of window
       this.measureData.full_title = "";
@@ -128,21 +127,31 @@ export default {
     },
 
     toHideOnUpdate() {
-      this.measureData.title = this.measureTitle;
-      this.measureData.full_title = this.measureFullTitle;
+      // this.measureData.title = this.measureTitle;
+      // this.measureData.full_title = this.measureFullTitle;
       let modalWindow = document.getElementById("create-measure-modal");
       modalWindow.classList.remove("is-active");
     },
 
     toCreate() {
-      console.log(this.measureData);
       this.$emit("emitOnMeasureCreateModal", this.measureData);
       this.toHideOnCreate();
+    },
+
+    toUpdate() {
+      this.$emit("emitOnMeasureUpdateModal", this.measureData);
+
+      this.toHideOnUpdate();
     },
   },
 
   mounted() {
     onEscapeKeyPress();
+  },
+
+  updated() {
+    document.getElementById("measure-title").focus();
+    //TODO Что-то нужно решать с фокусом на INPUT(не передаётся по причине условного рендеринга - компоненты ещё не в DOM)
   },
 };
 </script>

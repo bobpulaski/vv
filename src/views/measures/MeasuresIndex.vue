@@ -3,6 +3,7 @@
     <div class="columns is-vcentered">
       <div class="column">
         <header-h1>Единицы измерения</header-h1>
+        <h2>{{ jaga }}</h2>
       </div>
       <div class="column">
         <kso-button
@@ -33,11 +34,11 @@
           <td>{{ measure.full_title }}</td>
           <td>
             <div class="columns is-vcentered">
-              <div class="column is-1">
+              <!-- <div class="column is-1">
                 <button title="Просмотреть" class="button is-light is-small">
                   <i class="fa-solid fa-folder"></i>
                 </button>
-              </div>
+              </div> -->
 
               <div class="column is-1">
                 <button
@@ -77,6 +78,7 @@
       :measureTitle="measureTitle"
       :measureFullTitle="measureFullTitle"
       @emitOnMeasureCreateModal="createMeasure"
+      @emitOnMeasureUpdateModal="updateMeasure"
     ></MeasureCreateModal>
 
     <DeleteConfirmModal
@@ -114,6 +116,8 @@ export default {
       measureId: null,
       measureFullTitle: "",
       measureTitle: "",
+
+      jaga: false,
     };
   },
 
@@ -134,6 +138,14 @@ export default {
       this.getMeasures();
     },
 
+    async updateMeasure(measureData) {
+      await axios.put(
+        "http://127.0.0.1:5000/api/measures/" + this.measureId,
+        measureData
+      );
+      this.getMeasures();
+    },
+
     async deleteMeasure() {
       await axios.delete(
         "http://127.0.0.1:5000/api/measures/" + this.measureId
@@ -145,6 +157,8 @@ export default {
       this.isCreateOrEdit = "create";
       this.measureFullTitle = "";
       this.measureTitle = "";
+      this.jaga = !this.jaga;
+      console.log(this.jaga);
       this.showMeasureCreateModal();
     },
 
@@ -159,8 +173,6 @@ export default {
     showMeasureCreateModal() {
       let modalWindow = document.getElementById("create-measure-modal");
       modalWindow.classList.add("is-active");
-      //TODO Что-то нужно решать с фокусом на INPUT(не передаётся по причине условного рендеринга - компоненты ещё не в DOM)
-      //document.getElementById("measure-title").focus();
     },
 
     showDeleteConfirmModal(id, title, full_title) {
